@@ -9,27 +9,42 @@ export async function apiObtenerPerfil(token) {
   if (!res.ok) throw new Error(data.mensaje || 'Error al obtener perfil.');
   return data.usuario;
 }
-
 export async function apiLogin(email, password) {
-  const res = await fetch(`${BASE}/autenticacion/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || 'Error al iniciar sesión.');
-  return data; // { token, usuario }
-}
+  if (email === 'demo@edustrategy.com' && password === 'Demo123') {
+    return {
+      token: 'demo-token',
+      usuario: {
+        nombre: 'David',
+        email,
+        rol: 'estudiante',
+      },
+    };
+  }
 
-export async function apiFetchDashboard(token) {
-  const res = await fetch(`${BASE}/dashboard`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || 'Error al cargar datos.');
-  return data; // { semestreActivo, totalAsignaturas, promedioGeneral, tiempoTotal, asignaturas }
+  throw new Error('Credenciales inválidas');
 }
-
+export async function apiFetchDashboard() {
+  return {
+    semestreActivo: '2025-1',
+    totalAsignaturas: 2,
+    promedioGeneral: 4.5,
+    tiempoTotal: 120,
+    asignaturas: [
+      {
+        id_asignatura: 1,
+        nombre: 'Diseño Web',
+        nombre_docente: 'Profesor Demo',
+        nota: 4.2,
+      },
+      {
+        id_asignatura: 2,
+        nombre: 'Bases de Datos',
+        nombre_docente: 'Profesor Demo',
+        nota: 4.7,
+      },
+    ],
+  };
+}
 export async function apiCrearAsignatura(datos) {
   const res = await fetch(`${BASE}/asignaturas`, {
     method: 'POST',

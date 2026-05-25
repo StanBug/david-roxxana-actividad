@@ -16,8 +16,8 @@ function Login({ setPantalla, setUsuario }) {
       localStorage.setItem('edu_token', token);
       localStorage.setItem('edu_usuario', JSON.stringify(usuario));
 
-setUsuario(usuario);
-setPantalla('dashboard');
+      setUsuario(usuario);
+      setPantalla('dashboard');
     } catch (err) {
       setError(err.message || 'Error al iniciar sesión.');
     } finally {
